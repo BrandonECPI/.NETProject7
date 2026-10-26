@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ItemInventory.Models"
+             x:Class="ItemInventory.MainPage">
+
+    <!-- Stacks each section from top to bottom -->
+    <VerticalStackLayout
+        Padding="30,0"
+        Spacing="20">
+
+        <!-- Header: my name plus the app title -->
+        <Label
+            Text="Brandon Lazala - Item Inventory"
+            Style="{StaticResource Headline}"
+            SemanticProperties.HeadingLevel="Level1"/>
+
+        <!-- Instructions for the user -->
+        <Label Text="Please provide the following information:"
+                FontSize="18"/>
+
+        <!-- Input form: labels in column 0, fields in column 1 -->
+        <Grid RowDefinitions="Auto,Auto,Auto"
+              ColumnDefinitions="Auto,*"
+              RowSpacing="10"
+              ColumnSpacing="10">
+
+            <Label Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Item ID:"
+                    VerticalTextAlignment="Center"/>
+            <Entry Grid.Row="0"
+                    Grid.Column="1"
+                    x:Name="txtItemId"
+                    Placeholder="Enter the item ID"/>
+
+            <Label Grid.Row="1"
+                    Grid.Column="0"
+                    Text="Item Name:"
+                    VerticalTextAlignment="Center"/>
+            <Entry Grid.Row="1"
+                    Grid.Column="1"
+                    x:Name="txtItemName"
+                    Placeholder="Enter the item name"/>
+
+            <Label Grid.Row="2"
+                    Grid.Column="0"
+                    Text="Item Description:"
+                    VerticalTextAlignment="Center"/>
+            <Entry Grid.Row="2"
+                    Grid.Column="1"
+                    x:Name="txtItemDescription"
+                    Placeholder="Enter a description"/>
+        </Grid>
+
+        <!-- Saves the item to the database -->
+        <Button
+            x:Name="btnSave"
+            Text="Save Item"
+            HorizontalOptions="Center"
+            Clicked="OnSaveClicked"/>
+
+        <!-- Column headers for the saved items list -->
+        <Grid ColumnDefinitions="Auto,*,2*"
+                ColumnSpacing="20"
+                Padding="20,0">
+            <Label Grid.Column="0"
+                    Text="ID"
+                    FontAttributes="Bold"
+                    WidthRequest="80"/>
+            <Label Grid.Column="1"
+                    Text="Name"
+                    FontAttributes="Bold"/>
+            <Label Grid.Column="2"
+                    Text="Description"
+                    FontAttributes="Bold"/>
+        </Grid>
+
+        <!-- List of saved items, bound to the Items collection -->
+        <CollectionView ItemsSource="{Binding Items}"
+                VerticalOptions="Fill">
+
+            <!-- Shown when the database has no items yet -->
+            <CollectionView.EmptyView>
+                <Label Text="No items saved yet."
+                        HorizontalOptions="Center"
+                        Margin="0,20"/>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Item">
+                    <Grid ColumnDefinitions="Auto,*,2*"
+                            ColumnSpacing="20"
+                            Padding="20,8">
+                        <Label Grid.Column="0"
+                                Text="{Binding ItemId}"
+                                WidthRequest="80"/>
+                        <Label Grid.Column="1"
+                                Text="{Binding ItemName}"/>
+                        <Label Grid.Column="2"
+                                Text="{Binding ItemDescription}"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+
+</ContentPage>
